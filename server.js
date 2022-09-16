@@ -6,15 +6,36 @@ const app     = express();
 const server  = app.listen(55555, () => {
   const { exec } = require('child_process');
   exec('cat ~/cardano/cfg/net.cardano', (x,o,e) => {
-    o = o.trim();
+    const path = require('path');
+    const os   = require('os');
+    const home = os.homedir();
+    
+    if(o == null || o.trim().length == 0) {
+      cardanocliJs = new CardanocliJs({
+        network: 'testnet-magic 1097911063',
+        era: 'babbage',
+        dir: path.join(home,
+          'cardano-src',
+          'cardano-node'
+        ),
+        shelleyGenesisPath: path.join(home,
+          'cardano-src', 'cardano-node',
+          'configuration', 'cardano',
+          'testnet-shelley-genesis.json'
+        ),
+        socketPath: path.join(home,
+          'cardano', 'node.socket'
+        )
+      });
+      return;
+    }
+    else {
+      o = o.trim();
+    }
     
     var net = 'mainnet-magic 764824073';
     var era = 'babbage';
     
-    const os = require('os');
-    const home = os.homedir();
-    
-    const path = require('path');
     var dir = path.join(home,
       'cardano', 'src',
       'cardano-node'
@@ -55,7 +76,7 @@ const server  = app.listen(55555, () => {
       era: era,
       dir: dir,
       shelleyGenesisPath: shePath,
-      socketPath: socPath,
+      socketPath: socPath
     });
   });
 });
