@@ -10,7 +10,7 @@ Runs the app concurrently with [`node server.js`](server.js).\
 ```json
 "scripts": {
   ...
-    "cc": "concurrently \"node server\" \"npm start\""
+    "cc": "conc \"node server\" \"npm start\""
   ...
 }
 ```
